@@ -1,23 +1,25 @@
 var MoveSpeed: float=2;
 var Player: Transform;
 var number=3;
-var wayPoint: Transform;
 var wayPoints:Transform[];
 var MaxDist=10;
 var MinDist=20;
 var Health: float=100;
 var Range=30;
 var currentIndex;
+var prevIndex;
+var isWander=false;
 var DeadReplacement: GameObject;
 private var soldier: GameObject;
 function Start () {
     soldier = GameObject.Find("mixamorig:Hips");
+    Wander();
 }
 
 function Update () {
 	
     if(Vector3.Distance(transform.position,Player.position)<=Range){
-       //Chasing Player code
+        isWander=true;
         transform.LookAt(Player);// find player in arena
 	if(Vector3.Distance(transform.position,Player.position)>=MinDist){
 	// if player is not closer to mindist run else stop
@@ -29,20 +31,23 @@ function Update () {
 	
 	}
     }else{
-	
+	//soldier.animation.CrossFade("stand");
         // if player goes far away the enemy will look at waypoint and go there and stand finally
-        //currentIndex = Random.Range(0,wayPoints.Length);
-        transform.LookAt(wayPoints[0]);
-        if(Vector3.Distance(transform.position,wayPoints[0].position)>=MinDist){
+        
+        if(isWander){
+        Wander();
+        }
+       
+        isWander=false;
+        if(Vector3.Distance(transform.position,wayPoints[currentIndex].position)>=MinDist){
+            transform.LookAt(wayPoints[currentIndex]);
         transform.position+= transform.forward*MoveSpeed*Time.deltaTime;
         soldier.animation.CrossFade("Walking");
         }
-        
-       else {
+        else {
         soldier.animation.CrossFade("stand");
-//            currentIndex = Random.Range(0,wayPoints.Length);
-//           transform.LookAt(wayPoints[currentIndex]);
-           
+           // Wander();
+           isWander=true;
         }
     }
 	if(Vector3.Distance(transform.position,Player.position)<=MaxDist){
@@ -60,4 +65,20 @@ function Update () {
 function AdjustHealth(Adj : float){
 	Health -= Adj;
 	
+}
+function Wander(){
+    
+            
+    currentIndex = Random.Range(0,wayPoints.Length); 
+    while(currentIndex==prevIndex){
+    if(currentIndex!=prevIndex){
+        
+           transform.LookAt(wayPoints[currentIndex]);
+    }else{
+    currentIndex = Random.Range(0,wayPoints.Length); 
+    }
+     
+    }
+     prevIndex=currentIndex;
+    Debug.Log(currentIndex + " is current index ");
 }

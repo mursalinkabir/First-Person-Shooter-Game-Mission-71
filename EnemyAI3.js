@@ -1,41 +1,63 @@
- var target : Transform; //cant't be bothered to do any commments
- var moveSpeed = 3; 
- var rotationSpeed = 3; 
- var range : float=10f;
- var range2 : float=10f;
- var stop : float=0;
- var myTransform : Transform; 
- function Awake()
- {
-     myTransform = transform; 
- }
-  
- function Start()
- {
-      target = GameObject.FindWithTag("Player").transform; 
-  
- }
-  
- function Update () {
-     //rotate to look at the player
-     var distance = Vector3.Distance(myTransform.position, target.position);
-     if (distance<=range2 &&  distance>=range){
-     myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
-     Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed*Time.deltaTime);
-     }
-  
-  
-     else if(distance<=range && distance>stop){
-  
-     //move towards the player
-     myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
-     Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed*Time.deltaTime);
-     myTransform.position += myTransform.forward * moveSpeed * Time.deltaTime;
-     }
-     else if (distance<=stop) {
-     myTransform.rotation = Quaternion.Slerp(myTransform.rotation,
-     Quaternion.LookRotation(target.position - myTransform.position), rotationSpeed*Time.deltaTime);
-     }
-  
-  
- }
+var MoveSpeed: float=2;
+var Player: Transform;
+var number=3;
+var wayPoint: Transform;
+var wayPoints:Transform[];
+var MaxDist=10;
+var MinDist=20;
+var Health: float=100;
+var Range=30;
+var currentIndex;
+var DeadReplacement: GameObject;
+private var soldier: GameObject;
+function Start () {
+    soldier = GameObject.Find("mixamorig:Hips");
+}
+
+function Update () {
+	
+    if(Vector3.Distance(transform.position,Player.position)<=Range){
+       //Chasing Player code
+        transform.LookAt(Player);// find player in arena
+	if(Vector3.Distance(transform.position,Player.position)>=MinDist){
+	// if player is not closer to mindist run else stop
+	transform.position+= transform.forward*MoveSpeed*Time.deltaTime;
+	soldier.animation.CrossFade("Walking");
+	}
+	else{
+	soldier.animation.CrossFade("stand");
+	
+	}
+    }else{
+	
+        // if player goes far away the enemy will look at waypoint and go there and stand finally
+        //currentIndex = Random.Range(0,wayPoints.Length);
+        transform.LookAt(wayPoints[0]);
+        if(Vector3.Distance(transform.position,wayPoints[0].position)>=MinDist){
+        transform.position+= transform.forward*MoveSpeed*Time.deltaTime;
+        soldier.animation.CrossFade("Walking");
+        }
+        
+       else {
+        soldier.animation.CrossFade("stand");
+//            currentIndex = Random.Range(0,wayPoints.Length);
+//           transform.LookAt(wayPoints[currentIndex]);
+           
+        }
+    }
+	if(Vector3.Distance(transform.position,Player.position)<=MaxDist){
+	//if player is within range of maxdist start firing
+	gameObject.GetComponent(AIGun).Fire();
+	
+	}
+	 
+	if(Health<=0.0){
+	
+	Destroy(gameObject);
+	Instantiate(DeadReplacement,soldier.transform.position,soldier.transform.rotation);
+	}
+}
+function AdjustHealth(Adj : float){
+	Health -= Adj;
+	
+}
