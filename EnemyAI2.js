@@ -68,8 +68,9 @@ function AdjustHealth(Adj : float){
 }
 function Wander(){
     
-            
+      //getting a waypoint randomely       
     currentIndex = Random.Range(0,wayPoints.Length); 
+    //checks if current waypoint of prev are same, if true it changes the waypoint
     while(currentIndex==prevIndex){
     if(currentIndex!=prevIndex){
         
