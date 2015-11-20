@@ -22,7 +22,7 @@ function Start () {
 }
 
 function Update () {
-	
+	// checking if the target is close to range
     if(Vector3.Distance(transform.position,Player.position)<=Range){
         isWander=true;
        transform.LookAt(Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z));// find player in arena
@@ -31,10 +31,12 @@ function Update () {
 	//transform.position+= transform.forward*MoveSpeed*Time.deltaTime;
       agent.SetDestination(Player.position);
 	//soldier.animation.CrossFade("Walking");
-	anim.SetFloat("vspeed",1);
+	//anim.SetFloat("vspeed",1);
+	anim.SetFloat("hspeed",1);
 	}
 	else{
 	//soldier.animation.CrossFade("stand");
+	anim.SetFloat("hspeed",-1);
 	anim.SetFloat("vspeed",0);
 	
 	}
@@ -52,10 +54,12 @@ function Update () {
         //transform.position+= transform.forward*MoveSpeed*Time.deltaTime;
             agent.SetDestination(wayPoints[currentIndex].position);
         //soldier.animation.CrossFade("Walking");
+        anim.SetFloat("hspeed",-1);
         anim.SetFloat("vspeed",1);
         }
         else {
         //soldier.animation.CrossFade("stand");
+        anim.SetFloat("hspeed",-1);
         anim.SetFloat("vspeed",0);
            // Wander();
            isWander=true;
