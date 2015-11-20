@@ -3,16 +3,18 @@ var Player: Transform;
 var number=3;
 var wayPoints:Transform[];
 var MaxDist=10;
-var MinDist=20;
+var MinDist=5;
 var Health: float=100;
 var Range=30;
-var currentIndex;
+
 var prevIndex;
 private var isWander=false;
 var DeadReplacement: GameObject;
 private var soldier: GameObject;
 private var agent: NavMeshAgent;
 private var anim : Animator;
+private var curDistance;
+private var currentIndex;
 function Start () {
 	anim = GetComponent("Animator");
     //soldier = GameObject.Find("mixamorig:Hips");
@@ -31,13 +33,17 @@ function Update () {
 	//transform.position+= transform.forward*MoveSpeed*Time.deltaTime;
       agent.SetDestination(Player.position);
 	//soldier.animation.CrossFade("Walking");
-	//anim.SetFloat("vspeed",1);
-	anim.SetFloat("hspeed",1);
-	}
-	else{
-	//soldier.animation.CrossFade("stand");
 	anim.SetFloat("hspeed",-1);
-	anim.SetFloat("vspeed",0);
+	anim.SetFloat("vspeed",1);
+	curDistance=Vector3.Distance(transform.position,Player.position);
+	Debug.Log(curDistance + " is current Distance ");
+	}
+	else {
+	//soldier.animation.CrossFade("stand");
+	//agent.SetDestination(Player.position);
+	anim.SetFloat("hspeed",1);
+	curDistance=Vector3.Distance(transform.position,Player.position);
+	Debug.Log(curDistance + " is  Distance is else cond ");
 	
 	}
     }else{
