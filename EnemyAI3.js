@@ -8,13 +8,16 @@ var Health: float=100;
 var Range=30;
 var currentIndex;
 var prevIndex;
-var isWander=false;
+private var isWander=false;
 var DeadReplacement: GameObject;
 private var soldier: GameObject;
 private var agent: NavMeshAgent;
+private var anim : Animator;
 function Start () {
-    soldier = GameObject.Find("mixamorig:Hips");
+	anim = GetComponent("Animator");
+    //soldier = GameObject.Find("mixamorig:Hips");
     agent = GetComponent.<NavMeshAgent>();
+    
     Wander();
 }
 
@@ -22,15 +25,17 @@ function Update () {
 	
     if(Vector3.Distance(transform.position,Player.position)<=Range){
         isWander=true;
-        //transform.LookAt(Player);// find player in arena
+       transform.LookAt(Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z));// find player in arena
 	if(Vector3.Distance(transform.position,Player.position)>=MinDist){
 	// if player is not closer to mindist run else stop
 	//transform.position+= transform.forward*MoveSpeed*Time.deltaTime;
-       agent.SetDestination(Player.position);
-	soldier.animation.CrossFade("Walking");
+      agent.SetDestination(Player.position);
+	//soldier.animation.CrossFade("Walking");
+	anim.SetFloat("vspeed",1);
 	}
 	else{
-	soldier.animation.CrossFade("stand");
+	//soldier.animation.CrossFade("stand");
+	anim.SetFloat("vspeed",0);
 	
 	}
     }else{
@@ -43,19 +48,23 @@ function Update () {
        
         isWander=false;
         if(Vector3.Distance(transform.position,wayPoints[currentIndex].position)>=MinDist){
-            //transform.LookAt(wayPoints[currentIndex]);
+            transform.LookAt(wayPoints[currentIndex]);
         //transform.position+= transform.forward*MoveSpeed*Time.deltaTime;
             agent.SetDestination(wayPoints[currentIndex].position);
-        soldier.animation.CrossFade("Walking");
+        //soldier.animation.CrossFade("Walking");
+        anim.SetFloat("vspeed",1);
         }
         else {
-        soldier.animation.CrossFade("stand");
+        //soldier.animation.CrossFade("stand");
+        anim.SetFloat("vspeed",0);
            // Wander();
            isWander=true;
         }
     }
 	if(Vector3.Distance(transform.position,Player.position)<=MaxDist){
+	
 	//if player is within range of maxdist start firing
+	
 	gameObject.GetComponent(AIGun).Fire();
 	
 	}
