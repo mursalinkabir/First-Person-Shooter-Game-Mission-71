@@ -2,6 +2,7 @@
 var Bullet: Rigidbody;
 var BulletSpeed : float= 1000;
 var ReloadTime : float=2;
+var Damage:float=10;
 private var CanFire = true;
 var FireRate=0.1;
 var Range=100;
@@ -56,7 +57,8 @@ var bullet1:Rigidbody =Instantiate(Bullet,Spawn.position,Spawn.rotation);// bull
  }
  if(hit.collider.tag=="Player"){
  	Instantiate(ConcreteImpact,hit.point,Quaternion.FromToRotation(Vector3.forward,hit.normal)); 
- 	
+ 	hit.collider.SendMessageUpwards("AdjustHealth",Damage,SendMessageOptions.DontRequireReceiver);
+ 	print("Player Got Hit");
  }
 }
 }

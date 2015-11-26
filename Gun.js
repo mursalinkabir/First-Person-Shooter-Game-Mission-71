@@ -6,21 +6,24 @@ var AmmoInMag: float=30;
 var IsFullAuto= true;
 var Walk: String ;
 var Idle: String ;
+var crossHair:Texture;
 static var AmmoLeft:float;
 static var ReloadTTime:float;
 static var IsReloading=false;
 private var CanFire = true;
+
 var FireRate=0.1;
 
 
 function Start () {
 AmmoLeft= AmmoInMag;
 ReloadTTime= ReloadTime;
+
 }
 
 function Update () {
 
-
+  
 
 
 

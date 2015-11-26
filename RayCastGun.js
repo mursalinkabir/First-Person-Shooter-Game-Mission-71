@@ -83,7 +83,7 @@ if(CanFire==true && IsReloading==false){
  	Instantiate(BulletHole,hit.point,Quaternion.FromToRotation(Vector3.forward,hit.normal));
  }
  if(hit.collider.tag=="Player"){
- print("Got Hit");
+ print("Enemy Got Hit");
  	//Instantiate(ConcreteImpact,hit.point,Quaternion.FromToRotation(Vector3.forward,hit.normal)); 
  	hit.collider.SendMessageUpwards("AdjustHealth",Damage,SendMessageOptions.DontRequireReceiver);
  }

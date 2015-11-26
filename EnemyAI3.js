@@ -36,14 +36,14 @@ function Update () {
 	anim.SetFloat("hspeed",-1);
 	anim.SetFloat("vspeed",1);
 	curDistance=Vector3.Distance(transform.position,Player.position);
-	Debug.Log(curDistance + " is current Distance ");
+	//Debug.Log(curDistance + " is current Distance ");
 	}
 	else {
 	//soldier.animation.CrossFade("stand");
 	//agent.SetDestination(Player.position);
 	anim.SetFloat("hspeed",1);
 	curDistance=Vector3.Distance(transform.position,Player.position);
-	Debug.Log(curDistance + " is  Distance is else cond ");
+	//Debug.Log(curDistance + " is  Distance is else cond ");
 	
 	}
     }else{
@@ -104,5 +104,5 @@ function Wander(){
      
     }
      prevIndex=currentIndex;
-    Debug.Log(currentIndex + " is current index ");
+   Debug.Log(currentIndex + " is current index ");
 }
