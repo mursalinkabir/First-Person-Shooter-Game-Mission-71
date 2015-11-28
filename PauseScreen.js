@@ -1,5 +1,6 @@
 ﻿#pragma strict
 var pauseCanvas : Canvas;
+var optionCanvas : Canvas;
 function Start () {
 Screen.lockCursor=false;
 Screen.showCursor=false;
@@ -25,4 +26,11 @@ Screen.showCursor=false;
 }
 function PauseOptions(){
 pauseCanvas.enabled=!pauseCanvas.enabled;
+optionCanvas.enabled=!optionCanvas.enabled;
+}
+function ExitGame(){
+Application.Quit();
+}
+function MainMenuLoad(){
+Application.LoadLevel("Main Menu");
 }
